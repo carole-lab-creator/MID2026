@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>遊覽車分配名單</title>
+<style>
+  :root{
+    --bg:#f4f6f8; --card:#fff; --ink:#1f2933; --muted:#6b7785; --line:#e3e8ee;
+    --a:#2b8fd6; --a-soft:#d9efff; --b:#e0734a; --b-soft:#fde3d8;
+    --join:#2f6b2f; --join-soft:#e6f2e2; --warn:#a15c00; --warn-soft:#fff1d6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI","Microsoft JhengHei","PingFang TC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+  header{background:linear-gradient(135deg,#1d3557,#2b8fd6);color:#fff;padding:32px 20px 70px;text-align:center}
+  header h1{margin:0 0 6px;font-size:clamp(1.6rem,4vw,2.3rem);letter-spacing:.06em}
+  header p{margin:0;opacity:.85}
+  main{max-width:1100px;margin:-48px auto 40px;padding:0 16px}
+  .search{background:var(--card);border-radius:14px;box-shadow:0 6px 20px rgba(0,0,0,.08);padding:18px 20px;margin-bottom:20px}
+  .search label{font-weight:600;display:block;margin-bottom:8px}
+  .search input{width:100%;font-size:1.05rem;padding:12px 14px;border:1px solid var(--line);border-radius:10px;outline:none}
+  .search input:focus{border-color:var(--a);box-shadow:0 0 0 3px var(--a-soft)}
+  #result{margin-top:10px;min-height:1.5em;font-weight:600}
+  .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+  .stat{background:var(--card);border-radius:14px;padding:14px;text-align:center;box-shadow:0 3px 10px rgba(0,0,0,.05)}
+  .stat .n{font-size:1.9rem;font-weight:700}
+  .stat .l{color:var(--muted);font-size:.9rem}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media (max-width:760px){.grid{grid-template-columns:1fr}.summary{grid-template-columns:1fr 1fr 1fr}.stat .n{font-size:1.4rem}}
+  .bus{background:var(--card);border-radius:14px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.06)}
+  .bus h2{margin:0;padding:14px 18px;font-size:1.3rem;display:flex;justify-content:space-between;align-items:center}
+  .bus.A h2{background:var(--a-soft);color:#155b8c}
+  .bus.B h2{background:var(--b-soft);color:#9a3d1a}
+  .bus h2 .total{font-size:.95rem;font-weight:600;background:#fff;border-radius:999px;padding:3px 12px}
+  table{width:100%;border-collapse:collapse}
+  th,td{padding:9px 14px;border-bottom:1px solid var(--line);text-align:left}
+  th{font-size:.85rem;color:var(--muted);font-weight:600;background:#fafbfc}
+  td.num,th.num{text-align:center;width:70px}
+  td.note{width:42%}
+  tr.sub td{background:#fafbfc;font-weight:600;color:var(--muted)}
+  tr.sep td{background:var(--join-soft);color:var(--join);font-size:.85rem;font-weight:600;padding:6px 14px}
+  tr.join td.name{color:var(--join);font-weight:600}
+  tr.grand td{font-weight:700;font-size:1.05rem;border-bottom:none}
+  .tag{display:inline-block;font-size:.8rem;padding:2px 10px;border-radius:999px;font-weight:600}
+  .tag.noreturn{background:var(--warn-soft);color:var(--warn)}
+  .tag.join{background:var(--join-soft);color:var(--join)}
+  tr.hit td{background:#fff7b0 !important}
+  .legend{margin-top:18px;color:var(--muted);font-size:.9rem;text-align:center}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:10px 0 30px}
+</style>
+</head>
+<body>
+<header>
+  <h1>🚌 遊覽車分配名單</h1>
+  <p>請確認您與家眷所搭乘的車次</p>
+</header>
+
+<main>
+  <section class="search">
+    <label for="q">🔍 查詢我的車次（輸入英文名字）</label>
+    <input id="q" type="search" placeholder="例如：Carole、Joseph Chen" autocomplete="off">
+    <div id="result"></div>
+  </section>
+
+  <section class="summary" id="summary"></section>
+
+  <section class="grid" id="buses"></section>
+
+  <p class="legend">
+    <span class="tag noreturn">回程不搭車</span> 去程搭乘、回程自行離開　
+    <span class="tag join">Xpark → 台茂</span> 僅搭乘 Xpark 至台茂路段
+  </p>
+</main>
+<footer>人數含員工本人及眷屬</footer>
+
+<script>
+const BUSES = [
+  {
+    id: "A", name: "A 車",
+    members: [
+      ["Carole Yu",4],["Mina PH Lee",2],["Jimmy Yang",4],["Bert Hsu",1],
+      ["Hebe Tsai",2],["Monica Wu",4],["Benson Ho",1],["Karlie Wu",1],
+      ["Teresa Yu",2],["Josh Lin",1],["Wolf Wang",1],["Dennis Tsai",3],
+      ["Michael Huang",1,"回程不搭車"],["John Chu",2,"回程不搭車"]
+    ],
+    joiners: [["Patrick Hsu",1,"Xpark → 台茂"]]
+  },
+  {
+    id: "B", name: "B 車",
+    members: [
+      ["Janis Lee",1],["Joseph Chen",3],["Venlen Liu",2],["Austin Chung",2],
+      ["Luka Chang",1],["Diamo Cheng",1],["Brian Tran",1],["ShanYing Pan",1],
+      ["Ned Ku",2],["Sam Shiu",2],["Alan Chou",1],["Arvin Liao",1],
+      ["Sanyo Shih",1],["Kilean Lee",3],["Wendy Hsieh",1],["Alejandro Chang",2],
+      ["Mohd Azim",1]
+    ],
+    joiners: [["Richard Liu",1,"Xpark → 台茂"],["Ann Nguyen",2,"Xpark → 台茂"]]
+  }
+];
+
+const sum = arr => arr.reduce((s,r)=>s+r[1],0);
+const esc = s => s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const tag = note => !note ? "" :
+  `<span class="tag ${note.includes("回程")?"noreturn":"join"}">${esc(note)}</span>`;
+
+const busesEl = document.getElementById("buses");
+let grandAll = 0;
+BUSES.forEach(b=>{
+  const sub = sum(b.members), total = sub + sum(b.joiners);
+  grandAll += total;
+  const row = (r,cls="") => `<tr class="${cls}" data-name="${esc(r[0].toLowerCase())}" data-bus="${b.name}">
+      <td class="name">${esc(r[0])}</td><td class="num">${r[1]}</td><td class="note">${tag(r[2])}</td></tr>`;
+  busesEl.insertAdjacentHTML("beforeend", `
+  <article class="bus ${b.id}">
+    <h2>${b.name}<span class="total">總人數 ${total}</span></h2>
+    <table>
+      <thead><tr><th>姓名</th><th class="num">人數</th><th>備註</th></tr></thead>
+      <tbody>
+        ${b.members.map(r=>row(r)).join("")}
+        <tr class="sub"><td>小計</td><td class="num">${sub}</td><td></td></tr>
+        <tr class="sep"><td colspan="3">中途加入</td></tr>
+        ${b.joiners.map(r=>row(r,"join")).join("")}
+        <tr class="grand"><td>總人數</td><td class="num">${total}</td><td></td></tr>
+      </tbody>
+    </table>
+  </article>`);
+});
+
+document.getElementById("summary").innerHTML = `
+  <div class="stat"><div class="n" style="color:var(--a)">${sum(BUSES[0].members)+sum(BUSES[0].joiners)}</div><div class="l">A 車</div></div>
+  <div class="stat"><div class="n" style="color:var(--b)">${sum(BUSES[1].members)+sum(BUSES[1].joiners)}</div><div class="l">B 車</div></div>
+  <div class="stat"><div class="n">${grandAll}</div><div class="l">合計人數</div></div>`;
+
+const q = document.getElementById("q"), out = document.getElementById("result");
+q.addEventListener("input",()=>{
+  const v = q.value.trim().toLowerCase();
+  const rows = document.querySelectorAll("tr[data-name]");
+  rows.forEach(r=>r.classList.remove("hit"));
+  if(!v){ out.textContent=""; return; }
+  const hits = [...rows].filter(r=>r.dataset.name.includes(v));
+  hits.forEach(r=>r.classList.add("hit"));
+  if(!hits.length){ out.textContent="找不到這個名字，請確認拼字 🙏"; out.style.color="#b42318"; return; }
+  out.style.color="var(--ink)";
+  out.innerHTML = hits.map(r=>`✅ ${esc(r.cells[0].textContent)} → <b>${r.dataset.bus}</b>（${r.cells[1].textContent} 人）`).join("<br>");
+  hits[0].scrollIntoView({behavior:"smooth",block:"center"});
+});
+</script>
+</body>
+</html>
