@@ -2,148 +2,201 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<meta name="theme-color" content="#1d3557">
 <title>遊覽車分配名單</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="🚌 遊覽車分配名單">
+<meta property="og:description" content="輸入英文名字，立即查詢您搭乘的車次（A 車 / B 車）">
+<meta property="og:url" content="https://carole-lab-creator.github.io/MID2026/bus.html">
 <style>
   :root{
-    --bg:#f4f6f8; --card:#fff; --ink:#1f2933; --muted:#6b7785; --line:#e3e8ee;
-    --a:#2b8fd6; --a-soft:#d9efff; --b:#e0734a; --b-soft:#fde3d8;
-    --join:#2f6b2f; --join-soft:#e6f2e2; --warn:#a15c00; --warn-soft:#fff1d6;
+    --bg:#eef2f6; --card:#fff; --ink:#1f2933; --muted:#6b7785; --line:#e6ebf0;
+    --a:#2b8fd6; --a-dark:#155b8c; --a-soft:#dcefff;
+    --b:#e0734a; --b-dark:#9a3d1a; --b-soft:#fde4d9;
+    --join:#2f6b2f; --join-soft:#e4f2e0; --warn:#a15c00; --warn-soft:#fff0d1;
   }
-  *{box-sizing:border-box}
-  body{margin:0;font-family:"Segoe UI","Microsoft JhengHei","PingFang TC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
-  header{background:linear-gradient(135deg,#1d3557,#2b8fd6);color:#fff;padding:32px 20px 70px;text-align:center}
-  header h1{margin:0 0 6px;font-size:clamp(1.6rem,4vw,2.3rem);letter-spacing:.06em}
-  header p{margin:0;opacity:.85}
-  main{max-width:1100px;margin:-48px auto 40px;padding:0 16px}
-  .search{background:var(--card);border-radius:14px;box-shadow:0 6px 20px rgba(0,0,0,.08);padding:18px 20px;margin-bottom:20px}
-  .search label{font-weight:600;display:block;margin-bottom:8px}
-  .search input{width:100%;font-size:1.05rem;padding:12px 14px;border:1px solid var(--line);border-radius:10px;outline:none}
-  .search input:focus{border-color:var(--a);box-shadow:0 0 0 3px var(--a-soft)}
-  #result{margin-top:10px;min-height:1.5em;font-weight:600}
-  .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
-  .stat{background:var(--card);border-radius:14px;padding:14px;text-align:center;box-shadow:0 3px 10px rgba(0,0,0,.05)}
-  .stat .n{font-size:1.9rem;font-weight:700}
-  .stat .l{color:var(--muted);font-size:.9rem}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-  @media (max-width:760px){.grid{grid-template-columns:1fr}.summary{grid-template-columns:1fr 1fr 1fr}.stat .n{font-size:1.4rem}}
-  .bus{background:var(--card);border-radius:14px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.06)}
-  .bus h2{margin:0;padding:14px 18px;font-size:1.3rem;display:flex;justify-content:space-between;align-items:center}
-  .bus.A h2{background:var(--a-soft);color:#155b8c}
-  .bus.B h2{background:var(--b-soft);color:#9a3d1a}
-  .bus h2 .total{font-size:.95rem;font-weight:600;background:#fff;border-radius:999px;padding:3px 12px}
-  table{width:100%;border-collapse:collapse}
-  th,td{padding:9px 14px;border-bottom:1px solid var(--line);text-align:left}
-  th{font-size:.85rem;color:var(--muted);font-weight:600;background:#fafbfc}
-  td.num,th.num{text-align:center;width:70px}
-  td.note{width:42%}
-  tr.sub td{background:#fafbfc;font-weight:600;color:var(--muted)}
-  tr.sep td{background:var(--join-soft);color:var(--join);font-size:.85rem;font-weight:600;padding:6px 14px}
-  tr.join td.name{color:var(--join);font-weight:600}
-  tr.grand td{font-weight:700;font-size:1.05rem;border-bottom:none}
-  .tag{display:inline-block;font-size:.8rem;padding:2px 10px;border-radius:999px;font-weight:600}
-  .tag.noreturn{background:var(--warn-soft);color:var(--warn)}
-  .tag.join{background:var(--join-soft);color:var(--join)}
-  tr.hit td{background:#fff7b0 !important}
-  .legend{margin-top:18px;color:var(--muted);font-size:.9rem;text-align:center}
-  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:10px 0 30px}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;font-family:-apple-system,"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif;
+       background:var(--bg);color:var(--ink);line-height:1.45;
+       padding-bottom:calc(24px + env(safe-area-inset-bottom))}
+  .wrap{max-width:520px;margin:0 auto}
+
+  header{background:linear-gradient(135deg,#1d3557,#2b8fd6);color:#fff;
+         padding:calc(18px + env(safe-area-inset-top)) 18px 18px;text-align:center}
+  header h1{margin:0;font-size:1.35rem;letter-spacing:.05em}
+  header p{margin:4px 0 0;font-size:.85rem;opacity:.85}
+
+  /* 固定在上方的查詢列 + 分頁 */
+  .sticky{position:sticky;top:0;z-index:10;background:var(--bg);padding:12px 14px 10px;
+          box-shadow:0 4px 10px -8px rgba(0,0,0,.25)}
+  .search{position:relative}
+  .search input{width:100%;font-size:16px;/* 16px 避免 iOS 自動放大 */
+     padding:13px 44px 13px 42px;border:1.5px solid var(--line);border-radius:14px;
+     background:#fff;outline:none;-webkit-appearance:none;appearance:none}
+  .search input:focus{border-color:var(--a)}
+  .search input::-webkit-search-cancel-button,.search input::-webkit-search-decoration{-webkit-appearance:none;display:none}
+  .search .ico{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:1.05rem}
+  .search .clear{position:absolute;right:6px;top:50%;transform:translateY(-50%);
+     border:0;background:#dfe5ec;color:#4a5560;width:30px;height:30px;border-radius:50%;
+     font-size:1rem;display:none}
+  .tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+  .tab{border:0;border-radius:12px;padding:11px 8px;font-size:1rem;font-weight:700;
+       background:#fff;color:var(--muted);min-height:48px}
+  .tab small{font-weight:600;font-size:.8rem;margin-left:4px}
+  .tab.A.on{background:var(--a);color:#fff}
+  .tab.B.on{background:var(--b);color:#fff}
+
+  /* 查詢結果卡 */
+  #result{margin:12px 14px 0;display:none}
+  .hitcard{border-radius:16px;padding:14px 16px;color:#fff;margin-bottom:8px;
+           display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .hitcard.A{background:linear-gradient(135deg,var(--a),var(--a-dark))}
+  .hitcard.B{background:linear-gradient(135deg,var(--b),var(--b-dark))}
+  .hitcard .who{font-size:1.05rem;font-weight:700}
+  .hitcard .sub{font-size:.85rem;opacity:.9;margin-top:2px}
+  .hitcard .car{font-size:2rem;font-weight:800;white-space:nowrap}
+  .hitcard .car span{font-size:1rem;font-weight:700;margin-left:2px}
+  .nohit{background:#fff;border-radius:14px;padding:14px;text-align:center;color:#b42318;font-weight:600}
+
+  /* 名單 */
+  .panel{margin:12px 14px 0;background:var(--card);border-radius:16px;overflow:hidden;
+         box-shadow:0 2px 10px rgba(0,0,0,.05)}
+  .panel-head{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;font-weight:700}
+  .panel.A .panel-head{background:var(--a-soft);color:var(--a-dark)}
+  .panel.B .panel-head{background:var(--b-soft);color:var(--b-dark)}
+  .panel-head .tot{background:#fff;border-radius:999px;padding:2px 12px;font-size:.9rem}
+  .row{display:flex;align-items:center;justify-content:space-between;gap:10px;
+       padding:12px 16px;border-top:1px solid var(--line);min-height:52px;transition:background .3s}
+  .row .name{font-size:1.02rem;font-weight:600}
+  .row .chip{display:inline-block;margin-top:4px;font-size:.75rem;font-weight:700;
+             padding:2px 9px;border-radius:999px}
+  .chip.noreturn{background:var(--warn-soft);color:var(--warn)}
+  .chip.join{background:var(--join-soft);color:var(--join)}
+  .row .pax{flex:none;min-width:52px;text-align:center;font-weight:700;font-size:.95rem;
+            background:#f1f4f7;border-radius:10px;padding:5px 8px}
+  .row.hit{background:#fff6a8}
+  .divider{padding:7px 16px;font-size:.8rem;font-weight:700;letter-spacing:.05em}
+  .divider.sum{background:#f7f9fb;color:var(--muted);display:flex;justify-content:space-between;border-top:1px solid var(--line)}
+  .divider.joinhd{background:var(--join-soft);color:var(--join)}
+  .total{display:flex;justify-content:space-between;padding:13px 16px;font-weight:800;
+         border-top:2px solid var(--line);font-size:1.05rem}
+
+  .legend{margin:16px 14px 0;font-size:.8rem;color:var(--muted);line-height:2}
+  .legend .chip{margin-right:4px}
+  footer{text-align:center;color:var(--muted);font-size:.75rem;margin-top:14px}
 </style>
 </head>
 <body>
-<header>
-  <h1>🚌 遊覽車分配名單</h1>
-  <p>請確認您與家眷所搭乘的車次</p>
-</header>
+<div class="wrap">
+  <header>
+    <h1>🚌 遊覽車分配名單</h1>
+    <p>人數含員工本人及眷屬</p>
+  </header>
 
-<main>
-  <section class="search">
-    <label for="q">🔍 查詢我的車次（輸入英文名字）</label>
-    <input id="q" type="search" placeholder="例如：Carole、Joseph Chen" autocomplete="off">
-    <div id="result"></div>
-  </section>
+  <div class="sticky">
+    <div class="search">
+      <span class="ico">🔍</span>
+      <input id="q" type="search" inputmode="search" enterkeyhint="search"
+             placeholder="輸入英文名字查詢車次" autocomplete="off" autocapitalize="off" spellcheck="false">
+      <button class="clear" id="clear" aria-label="清除">✕</button>
+    </div>
+    <div class="tabs" id="tabs"></div>
+  </div>
 
-  <section class="summary" id="summary"></section>
+  <div id="result"></div>
+  <div id="panels"></div>
 
-  <section class="grid" id="buses"></section>
-
-  <p class="legend">
-    <span class="tag noreturn">回程不搭車</span> 去程搭乘、回程自行離開　
-    <span class="tag join">Xpark → 台茂</span> 僅搭乘 Xpark 至台茂路段
-  </p>
-</main>
-<footer>人數含員工本人及眷屬</footer>
+  <div class="legend">
+    <span class="chip noreturn">回程不搭車</span>去程搭乘，回程自行離開<br>
+    <span class="chip join">Xpark → 台茂</span>僅搭乘 Xpark 至台茂路段
+  </div>
+  <footer>如名單有誤，請洽活動承辦人</footer>
+</div>
 
 <script>
+/* ===== 名單資料：["姓名", 人數, "備註"] ===== */
 const BUSES = [
-  {
-    id: "A", name: "A 車",
-    members: [
+  { id:"A", name:"A 車",
+    members:[
       ["Carole Yu",4],["Mina PH Lee",2],["Jimmy Yang",4],["Bert Hsu",1],
       ["Hebe Tsai",2],["Monica Wu",4],["Benson Ho",1],["Karlie Wu",1],
       ["Teresa Yu",2],["Josh Lin",1],["Wolf Wang",1],["Dennis Tsai",3],
       ["Michael Huang",1,"回程不搭車"],["John Chu",2,"回程不搭車"]
     ],
-    joiners: [["Patrick Hsu",1,"Xpark → 台茂"]]
-  },
-  {
-    id: "B", name: "B 車",
-    members: [
+    joiners:[["Patrick Hsu",1,"Xpark → 台茂"]] },
+  { id:"B", name:"B 車",
+    members:[
       ["Janis Lee",1],["Joseph Chen",3],["Venlen Liu",2],["Austin Chung",2],
       ["Luka Chang",1],["Diamo Cheng",1],["Brian Tran",1],["ShanYing Pan",1],
       ["Ned Ku",2],["Sam Shiu",2],["Alan Chou",1],["Arvin Liao",1],
       ["Sanyo Shih",1],["Kilean Lee",3],["Wendy Hsieh",1],["Alejandro Chang",2],
       ["Mohd Azim",1]
     ],
-    joiners: [["Richard Liu",1,"Xpark → 台茂"],["Ann Nguyen",2,"Xpark → 台茂"]]
-  }
+    joiners:[["Richard Liu",1,"Xpark → 台茂"],["Ann Nguyen",2,"Xpark → 台茂"]] }
 ];
+/* ========================================== */
 
-const sum = arr => arr.reduce((s,r)=>s+r[1],0);
-const esc = s => s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const tag = note => !note ? "" :
-  `<span class="tag ${note.includes("回程")?"noreturn":"join"}">${esc(note)}</span>`;
+const sum = a => a.reduce((s,r)=>s+r[1],0);
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const chip = n => !n ? "" : `<div><span class="chip ${n.includes("回程")?"noreturn":"join"}">${esc(n)}</span></div>`;
 
-const busesEl = document.getElementById("buses");
-let grandAll = 0;
+const tabsEl = document.getElementById("tabs"), panelsEl = document.getElementById("panels");
+const ALL = [];
 BUSES.forEach(b=>{
-  const sub = sum(b.members), total = sub + sum(b.joiners);
-  grandAll += total;
-  const row = (r,cls="") => `<tr class="${cls}" data-name="${esc(r[0].toLowerCase())}" data-bus="${b.name}">
-      <td class="name">${esc(r[0])}</td><td class="num">${r[1]}</td><td class="note">${tag(r[2])}</td></tr>`;
-  busesEl.insertAdjacentHTML("beforeend", `
-  <article class="bus ${b.id}">
-    <h2>${b.name}<span class="total">總人數 ${total}</span></h2>
-    <table>
-      <thead><tr><th>姓名</th><th class="num">人數</th><th>備註</th></tr></thead>
-      <tbody>
-        ${b.members.map(r=>row(r)).join("")}
-        <tr class="sub"><td>小計</td><td class="num">${sub}</td><td></td></tr>
-        <tr class="sep"><td colspan="3">中途加入</td></tr>
-        ${b.joiners.map(r=>row(r,"join")).join("")}
-        <tr class="grand"><td>總人數</td><td class="num">${total}</td><td></td></tr>
-      </tbody>
-    </table>
-  </article>`);
+  b.sub = sum(b.members); b.total = b.sub + sum(b.joiners);
+  tabsEl.insertAdjacentHTML("beforeend",
+    `<button class="tab ${b.id}" data-id="${b.id}">${b.name}<small>${b.total} 人</small></button>`);
+  const row = r => { ALL.push({bus:b, r});
+    return `<div class="row" data-name="${esc(r[0].toLowerCase())}">
+      <div><div class="name">${esc(r[0])}</div>${chip(r[2])}</div>
+      <div class="pax">${r[1]} 人</div></div>`; };
+  panelsEl.insertAdjacentHTML("beforeend", `
+    <section class="panel ${b.id}" id="panel-${b.id}" hidden>
+      <div class="panel-head"><span>${b.name}</span><span class="tot">總人數 ${b.total}</span></div>
+      ${b.members.map(row).join("")}
+      <div class="divider sum"><span>小計</span><span>${b.sub} 人</span></div>
+      <div class="divider joinhd">中途加入</div>
+      ${b.joiners.map(row).join("")}
+      <div class="total"><span>總人數</span><span>${b.total} 人</span></div>
+    </section>`);
 });
 
-document.getElementById("summary").innerHTML = `
-  <div class="stat"><div class="n" style="color:var(--a)">${sum(BUSES[0].members)+sum(BUSES[0].joiners)}</div><div class="l">A 車</div></div>
-  <div class="stat"><div class="n" style="color:var(--b)">${sum(BUSES[1].members)+sum(BUSES[1].joiners)}</div><div class="l">B 車</div></div>
-  <div class="stat"><div class="n">${grandAll}</div><div class="l">合計人數</div></div>`;
+function show(id, keepHash){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("on", t.dataset.id===id));
+  document.querySelectorAll(".panel").forEach(p=>p.hidden = p.id!=="panel-"+id);
+  if(!keepHash) history.replaceState(null,"","#"+id);
+}
+tabsEl.addEventListener("click",e=>{const t=e.target.closest(".tab"); if(t) show(t.dataset.id);});
+// 支援 bus.html#B 直接開啟 B 車
+show(/^#B$/i.test(location.hash) ? "B" : "A", true);
 
-const q = document.getElementById("q"), out = document.getElementById("result");
-q.addEventListener("input",()=>{
-  const v = q.value.trim().toLowerCase();
-  const rows = document.querySelectorAll("tr[data-name]");
-  rows.forEach(r=>r.classList.remove("hit"));
-  if(!v){ out.textContent=""; return; }
-  const hits = [...rows].filter(r=>r.dataset.name.includes(v));
-  hits.forEach(r=>r.classList.add("hit"));
-  if(!hits.length){ out.textContent="找不到這個名字，請確認拼字 🙏"; out.style.color="#b42318"; return; }
-  out.style.color="var(--ink)";
-  out.innerHTML = hits.map(r=>`✅ ${esc(r.cells[0].textContent)} → <b>${r.dataset.bus}</b>（${r.cells[1].textContent} 人）`).join("<br>");
-  hits[0].scrollIntoView({behavior:"smooth",block:"center"});
-});
+const q = document.getElementById("q"), clr = document.getElementById("clear"), out = document.getElementById("result");
+function search(){
+  const v = q.value.trim().toLowerCase().replace(/\s+/g," ");
+  clr.style.display = v ? "block" : "none";
+  document.querySelectorAll(".row.hit").forEach(r=>r.classList.remove("hit"));
+  if(!v){ out.style.display="none"; out.innerHTML=""; return; }
+  const hits = ALL.filter(x=>x.r[0].toLowerCase().includes(v));
+  out.style.display="block";
+  if(!hits.length){ out.innerHTML=`<div class="nohit">找不到「${esc(q.value.trim())}」，請確認英文拼字 🙏</div>`; return; }
+  out.innerHTML = hits.slice(0,5).map(x=>`
+    <div class="hitcard ${x.bus.id}">
+      <div><div class="who">${esc(x.r[0])}</div>
+        <div class="sub">共 ${x.r[1]} 人${x.r[2]?"・"+esc(x.r[2]):""}</div></div>
+      <div class="car">${x.bus.id}<span>車</span></div>
+    </div>`).join("") + (hits.length>5?`<div class="nohit" style="color:var(--muted)">還有 ${hits.length-5} 筆，請輸入更完整的名字</div>`:"");
+  show(hits[0].bus.id);
+  hits.forEach(x=>{
+    const el = document.querySelector(`#panel-${x.bus.id} .row[data-name="${CSS.escape(x.r[0].toLowerCase())}"]`);
+    if(el) el.classList.add("hit");
+  });
+}
+q.addEventListener("input",search);
+q.addEventListener("keydown",e=>{ if(e.key==="Enter") q.blur(); });
+clr.addEventListener("click",()=>{ q.value=""; search(); q.focus(); });
 </script>
 </body>
 </html>
