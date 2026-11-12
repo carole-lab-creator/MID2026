@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<meta name="theme-color" content="#0f3d7a">
+<title>2026 年度旅遊行程</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="🐧 2026 年度旅遊行程">
+<meta property="og:description" content="海洋探索 × 美食饗宴 × 團隊歡聚｜8:30 新竹總部準時發車">
+<meta property="og:image" content="https://carole-lab-creator.github.io/MID2026/trip-hero.jpg">
+<meta property="og:url" content="https://carole-lab-creator.github.io/MID2026/trip.html">
+<style>
+  :root{
+    --navy:#0f3d7a; --blue:#1e6fc4; --sky:#e8f4fd; --teal:#159fb3; --orange:#f0921d;
+    --green:#17876a; --ink:#1d2b3a; --muted:#64748b; --line:#dbe7f3; --card:#fff;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{margin:0;font-family:-apple-system,"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif;
+       color:var(--ink);line-height:1.5;
+       background:linear-gradient(180deg,#f3f9ff 0%,#dff0fc 55%,#bfe2f7 100%) fixed;
+       padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+  .wrap{max-width:520px;margin:0 auto}
+  img{display:block;max-width:100%}
+
+  /* 主視覺 */
+  .hero{position:relative;padding-top:env(safe-area-inset-top);background:#fff}
+  .hero img{width:100%;height:auto}
+  .tagline{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;padding:12px 14px 4px}
+  .tagline span{background:var(--navy);color:#fff;font-size:.82rem;font-weight:700;
+                padding:4px 12px;border-radius:999px}
+
+  /* 快速按鈕 */
+  .quick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px}
+  .quick a,.quick button{display:flex;flex-direction:column;align-items:center;gap:4px;
+     border:0;background:var(--card);border-radius:16px;padding:12px 4px;min-height:74px;
+     color:var(--navy);font:inherit;font-size:.85rem;font-weight:700;text-decoration:none;
+     box-shadow:0 3px 10px rgba(15,61,122,.08)}
+  .quick .em{font-size:1.5rem;line-height:1}
+
+  .note-bar{margin:0 14px;background:var(--navy);color:#fff;border-radius:14px;
+            padding:11px 14px;font-size:.88rem;font-weight:600;display:flex;gap:8px;align-items:flex-start}
+
+  h2.sec{margin:22px 18px 10px;font-size:1.15rem;color:var(--navy);display:flex;align-items:center;gap:8px}
+  h2.sec::after{content:"";flex:1;height:2px;background:linear-gradient(90deg,var(--line),transparent)}
+
+  /* 時間軸 */
+  .timeline{position:relative;margin:0 14px;padding-left:10px}
+  .timeline::before{content:"";position:absolute;left:33px;top:20px;bottom:20px;width:3px;
+     background:repeating-linear-gradient(180deg,#9cc6ec 0 6px,transparent 6px 12px)}
+  .stop{position:relative;display:flex;gap:12px;margin-bottom:14px}
+  .dot{flex:none;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;
+       font-size:1.4rem;color:#fff;box-shadow:0 0 0 4px #fff,0 4px 10px rgba(0,0,0,.12);z-index:1}
+  .c-navy .dot{background:var(--navy)} .c-teal .dot{background:var(--teal)}
+  .c-orange .dot{background:var(--orange)} .c-green .dot{background:var(--green)}
+  .card{flex:1;min-width:0;background:var(--card);border-radius:18px;overflow:hidden;
+        box-shadow:0 4px 16px rgba(15,61,122,.08)}
+  .card .photo{width:100%;height:auto;aspect-ratio:2.1/1;object-fit:cover;object-position:center top}
+  .card .body{padding:12px 14px 14px}
+  .time{font-size:1.25rem;font-weight:800;letter-spacing:.02em}
+  .c-navy .time{color:var(--navy)} .c-teal .time{color:var(--teal)}
+  .c-orange .time{color:var(--orange)} .c-green .time{color:var(--green)}
+  .title{font-size:1.1rem;font-weight:800;margin:2px 0 4px}
+  .desc{font-size:.88rem;color:var(--muted);margin:0}
+  .facts{list-style:none;margin:10px 0 0;padding:10px 0 0;border-top:1px dashed var(--line);font-size:.88rem}
+  .facts li{display:flex;gap:8px;padding:3px 0}
+  .facts li b{flex:none;width:4.6em;color:var(--navy)}
+  .hl{background:#fff2d6;color:#9a5a00;border-radius:6px;padding:0 6px;font-weight:700}
+  .addr{display:flex;gap:8px;align-items:center;margin-top:10px;background:var(--sky);
+        border-radius:12px;padding:9px 10px}
+  .addr span{flex:1;font-size:.86rem}
+  .nav{flex:none;background:var(--blue);color:#fff;text-decoration:none;font-size:.82rem;
+       font-weight:700;border-radius:10px;padding:8px 11px;min-height:36px;display:flex;align-items:center}
+  .stop.now .card{outline:3px solid var(--orange)}
+  .stop.now .badge{display:inline-block}
+  .badge{display:none;background:var(--orange);color:#fff;font-size:.72rem;font-weight:800;
+         border-radius:999px;padding:1px 8px;margin-left:6px;vertical-align:middle}
+  .stop.done{opacity:.55}
+
+  .tips{margin:0 14px;background:var(--card);border-radius:18px;padding:6px 16px;
+        box-shadow:0 4px 16px rgba(15,61,122,.08)}
+  .tips li{padding:10px 0;border-bottom:1px solid var(--line);font-size:.92rem}
+  .tips li:last-child{border-bottom:0}
+  .tips ul{list-style:none;margin:0;padding:0}
+
+  .closing{text-align:center;color:var(--navy);font-weight:800;font-size:1.15rem;margin:26px 14px 8px;line-height:1.7}
+  footer{text-align:center;font-size:.75rem;color:var(--muted)}
+
+  /* 底部固定列 */
+  .bottom{position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(255,255,255,.96);
+          backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid var(--line);
+          padding:8px 12px calc(8px + env(safe-area-inset-bottom))}
+  .bottom .in{max-width:520px;margin:0 auto;display:grid;grid-template-columns:1fr 1.4fr;gap:10px}
+  .bottom a{display:flex;align-items:center;justify-content:center;gap:6px;min-height:48px;
+            border-radius:14px;text-decoration:none;font-weight:800;font-size:.95rem}
+  .bottom .ghost{background:var(--sky);color:var(--navy)}
+  .bottom .main{background:linear-gradient(135deg,var(--blue),var(--navy));color:#fff}
+
+  /* 海報燈箱 */
+  .lightbox{position:fixed;inset:0;z-index:50;background:rgba(5,20,40,.92);display:none;
+            overflow:auto;padding:calc(50px + env(safe-area-inset-top)) 10px 30px}
+  .lightbox.on{display:block}
+  .lightbox img{margin:0 auto;border-radius:10px;max-width:500px;width:100%}
+  .lightbox .x{position:fixed;top:calc(10px + env(safe-area-inset-top));right:12px;width:40px;height:40px;
+     border-radius:50%;border:0;background:#fff;font-size:1.2rem;color:var(--navy)}
+  .lightbox p{color:#cfe3f7;text-align:center;font-size:.8rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <img src="trip-hero.jpg" alt="2026 年度旅遊行程：海洋探索 × 美食饗宴 × 團隊歡聚" width="1080" height="345">
+  </header>
+
+  <h2 class="sec" id="schedule">行程時間</h2>
+  <section class="timeline" id="timeline">
+
+    <article class="stop c-navy" data-start="08:30" data-end="09:45">
+      <div class="dot">🚌</div>
+      <div class="card"><div class="body">
+        <div class="time">08:30<span class="badge">進行中</span></div>
+        <div class="title">集合出發｜啓碁科技總部</div>
+        <p class="desc">準時出發，開啟美好旅程！</p>
+        <ul class="facts">
+          <li><b>發車</b><span><span class="hl">08:30</span> 準時發車</span></li>
+          <li><b>車程</b><span>08:30 – 09:45</span></li>
+        </ul>
+        <div class="addr"><span>📍 新竹縣寶山鄉園區二路20號</span>
+          <a class="nav" data-q="新竹縣寶山鄉園區二路20號 啓碁科技">導航</a></div>
+      </div></div>
+    </article>
+
+    <article class="stop c-teal" data-start="09:45" data-end="14:00">
+      <div class="dot">🐟</div>
+      <div class="card">
+        <img class="photo" src="trip-xpark.jpg" alt="Xpark 水族館" loading="lazy">
+        <div class="body">
+          <div class="time">10:00 – 13:45<span class="badge">進行中</span></div>
+          <div class="title">Xpark 水族館</div>
+          <p class="desc">沉浸式都會水生公園，探索海洋生物的奧秘<br>精彩展區・互動體驗・療癒放鬆</p>
+          <ul class="facts">
+            <li><b>抵達</b><span>09:45 抵達置地廣場</span></li>
+            <li><b>參觀</b><span>10:00 – 13:45</span></li>
+            <li><b>集合</b><span><span class="hl">13:45</span> 集合上車，前往台茂</span></li>
+          </ul>
+          <div class="addr"><span>📍 桃園市中壢區春德路105號（置地廣場）</span>
+            <a class="nav" data-q="Xpark 桃園市中壢區春德路105號">導航</a></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="stop c-orange" data-start="14:00" data-end="17:00">
+      <div class="dot">☕</div>
+      <div class="card">
+        <img class="photo" src="trip-island.jpg" alt="島語下午茶" loading="lazy">
+        <div class="body">
+          <div class="time">14:30 – 17:00<span class="badge">進行中</span></div>
+          <div class="title">島語下午茶｜包場餐敘</div>
+          <p class="desc">精緻美食・悠閒午茶・歡樂交流<br>專屬包場，享受美好時光！</p>
+          <ul class="facts">
+            <li><b>移動</b><span>14:00 由 Xpark 出發</span></li>
+            <li><b>餐敘</b><span>14:30 – 17:00</span></li>
+            <li><b>地點</b><span>島語 桃園台茂店 6 樓</span></li>
+          </ul>
+          <div class="addr"><span>📍 桃園市蘆竹區南崁路一段112號6樓</span>
+            <a class="nav" data-q="島語 桃園台茂店 桃園市蘆竹區南崁路一段112號">導航</a></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="stop c-navy" data-start="17:00" data-end="18:15">
+      <div class="dot">🚌</div>
+      <div class="card">
+        <div class="body">
+          <div class="time">17:00<span class="badge">進行中</span></div>
+          <div class="title">活動結束｜集合上車返回新竹</div>
+          <p class="desc">滿載歡樂回憶，平安返程！</p>
+          <ul class="facts">
+            <li><b>集合</b><span><span class="hl">17:00</span> 台茂集合上車</span></li>
+            <li><b>回程</b><span>17:00 – 18:15</span></li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <article class="stop c-green" data-start="18:15" data-end="18:45">
+      <div class="dot">📍</div>
+      <div class="card"><div class="body">
+        <div class="time">約 18:00 – 18:15<span class="badge">進行中</span></div>
+        <div class="title">預計抵達新竹總部</div>
+        <p class="desc">期待下次再相聚！</p>
+      </div></div>
+    </article>
+
+  </section>
+
+  <h2 class="sec">注意事項</h2>
+  <section class="tips">
+    <ul>
+      <li>⏰ 請準時集合，攜帶好心情，一起開心出遊！</li>
+      <li>🚌 搭乘 A 車或 B 車，請先到「<a href="bus.html">我的車次</a>」查詢。</li>
+      <li>🐟 Xpark 參觀至 13:45，請準時回到車上。</li>
+      <li>☕ 下午茶 17:00 結束，請於 17:00 集合上車返回新竹。</li>
+    </ul>
+  </section>
+
+  <p class="closing">期待與您一起<br>創造更多美好回憶！</p>
+  <footer>2026 年度旅遊</footer>
+</div>
+
+<div class="bottom"><div class="in">
+  <a class="ghost" href="#schedule">🗓️ 行程</a>
+  <a class="main" href="bus.html">🚌 查詢我的車次</a>
+</div></div>
+
+<script>
+/* 活動當天日期（填入後，當天會自動標示「進行中」的行程），例如 "2026-12-05"；留空則不啟用 */
+const EVENT_DATE = "";
+
+// 導航按鈕：開啟 Google 地圖
+document.querySelectorAll(".nav").forEach(a=>{
+  a.href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(a.dataset.q);
+  a.target = "_blank"; a.rel = "noopener";
+});
+
+// 活動當天：標示目前行程
+function mark(){
+  if(!EVENT_DATE) return;
+  const now = new Date(), pad = n=>String(n).padStart(2,"0");
+  const today = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
+  if(today !== EVENT_DATE) return;
+  const hm = pad(now.getHours())+":"+pad(now.getMinutes());
+  let cur = null;
+  document.querySelectorAll(".stop").forEach(s=>{
+    s.classList.remove("now","done");
+    if(hm >= s.dataset.end) s.classList.add("done");
+    else if(hm >= s.dataset.start && !cur){ s.classList.add("now"); cur = s; }
+  });
+  return cur;
+}
+const cur = mark();
+if(cur) setTimeout(()=>cur.scrollIntoView({behavior:"smooth",block:"center"}), 400);
+setInterval(mark, 60000);
+</script>
+</body>
+</html>
