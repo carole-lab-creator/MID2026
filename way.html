@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<meta name="theme-color" content="#0f3d7a">
+<title>Make your own way｜Xpark・台茂購物中心交通指南</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="🧭 Make your own way｜自行前往交通指南">
+<meta property="og:description" content="Xpark 水族館・台茂購物中心：高鐵、機捷、客運公車、自行開車與停車資訊">
+<meta property="og:image" content="https://carole-lab-creator.github.io/MID2026/trip-xpark.jpg">
+<meta property="og:url" content="https://carole-lab-creator.github.io/MID2026/way.html">
+<style>
+  :root{
+    --navy:#0f3d7a; --blue:#1e6fc4; --sky:#e8f4fd; --teal:#159fb3; --orange:#f0921d;
+    --purple:#6b4fbb; --red:#c8402f; --green:#17876a; --ink:#1d2b3a; --muted:#64748b; --line:#dbe7f3; --card:#fff;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;font-family:-apple-system,"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif;
+       color:var(--ink);line-height:1.55;
+       background:linear-gradient(180deg,#f3f9ff 0%,#dff0fc 55%,#bfe2f7 100%) fixed;
+       padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+  .wrap{max-width:520px;margin:0 auto}
+
+  /* 標題 */
+  header{color:#fff;padding:calc(20px + env(safe-area-inset-top)) 20px 20px;
+         background:linear-gradient(135deg,#0f3d7a,#1e6fc4)}
+  header .eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.12em;opacity:.85;text-transform:uppercase}
+  header h1{margin:4px 0 0;font-size:1.4rem;line-height:1.3}
+
+  /* 目的地切換 */
+  .switch{position:sticky;top:0;z-index:12;background:rgba(238,246,253,.96);
+          backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:10px 14px 8px}
+  .seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .seg button{border:0;border-radius:14px;min-height:50px;font:inherit;font-weight:800;font-size:1rem;
+              background:#fff;color:var(--muted);box-shadow:0 2px 8px rgba(15,61,122,.06)}
+  .seg button small{display:block;font-size:.72rem;font-weight:600;opacity:.85;line-height:1.2}
+  .seg button.on[data-d="xpark"]{background:var(--teal);color:#fff}
+  .seg button.on[data-d="taimall"]{background:var(--orange);color:#fff}
+  .sub{display:flex;gap:6px;overflow-x:auto;margin-top:8px;padding-bottom:2px;scrollbar-width:none}
+  .sub::-webkit-scrollbar{display:none}
+  .sub[hidden]{display:none}
+  .sub a{flex:none;text-decoration:none;background:#fff;color:var(--navy);font-size:.82rem;font-weight:700;
+         border-radius:999px;padding:7px 12px;border:1px solid var(--line)}
+
+  .panel[hidden]{display:none}
+  .hero{margin:6px 14px 0;border-radius:18px;overflow:hidden;background:var(--card);box-shadow:0 4px 16px rgba(15,61,122,.08)}
+  .hero img{display:block;width:100%;height:auto;aspect-ratio:2.4/1;object-fit:cover;object-position:center top}
+  .hero .t{padding:12px 14px;display:flex;gap:10px;align-items:center}
+  .hero .t div{flex:1;min-width:0}
+  .hero b{display:block;color:var(--navy);font-size:1.05rem}
+  .hero span{font-size:.85rem;color:var(--muted)}
+  .intro{margin:10px 16px 0;font-size:.9rem;color:#38506a}
+
+  .btn{flex:none;display:inline-flex;align-items:center;justify-content:center;gap:4px;
+       background:var(--blue);color:#fff;text-decoration:none;font-weight:700;font-size:.85rem;
+       border-radius:12px;padding:9px 12px;min-height:40px}
+  .wide{display:flex;width:100%;margin-top:8px}
+  .wide.ghost{background:var(--sky);color:var(--navy)}
+
+  section.blk{margin:14px 14px 0;background:var(--card);border-radius:18px;overflow:hidden;
+              box-shadow:0 4px 16px rgba(15,61,122,.08);scroll-margin-top:130px}
+  .blk h2{margin:0;padding:12px 16px;font-size:1.05rem;color:#fff;display:flex;align-items:center;gap:8px}
+  .blk h2 .min{margin-left:auto;background:rgba(255,255,255,.22);border-radius:999px;padding:1px 10px;font-size:.78rem}
+  .h-red h2{background:var(--red)} .h-purple h2{background:var(--purple)} .h-teal h2{background:var(--teal)}
+  .h-navy h2{background:var(--navy)} .h-green h2{background:var(--green)}
+  .blk .in{padding:14px 16px}
+
+  /* 步驟 */
+  .steps{list-style:none;margin:0;padding:0;counter-reset:s}
+  .steps li{position:relative;padding:0 0 12px 38px;counter-increment:s;font-size:.93rem}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;
+       background:var(--sky);color:var(--navy);font-weight:800;display:grid;place-items:center;font-size:.85rem}
+  .steps li:not(:last-child)::after{content:"";position:absolute;left:12px;top:28px;bottom:2px;width:2px;background:var(--line)}
+  .steps li.goal::before{content:"📍";background:#fff1dc}
+  .hl{background:#fff2d6;color:#9a5a00;border-radius:6px;padding:0 5px;font-weight:700}
+  .tip{background:#f3f7fb;border-radius:12px;padding:10px 12px;font-size:.85rem;color:#38506a;margin-top:6px}
+  .stopnote{background:#e3f6f8;color:#0d6f7d;border-radius:12px;padding:10px 12px;font-size:.88rem;font-weight:600}
+  h3.mini{margin:16px 0 8px;font-size:.98rem;color:var(--navy);display:flex;align-items:center;gap:6px}
+  h3.mini::before{content:"";width:6px;height:16px;border-radius:3px;background:var(--teal)}
+  h3.mini:first-child{margin-top:0}
+
+  /* 路線 */
+  .route{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line)}
+  .route.first{border-top:0}
+  .no{flex:none;min-width:60px;text-align:center;font-weight:800;font-size:1.05rem;color:#fff;
+      background:var(--teal);border-radius:10px;padding:4px 8px}
+  .route .co{font-size:.78rem;color:var(--muted);display:block}
+  .route .path{font-size:.92rem;font-weight:600}
+  .route .dur{margin-left:auto;flex:none;font-size:.8rem;color:var(--muted);font-weight:700}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+
+  /* 停車資訊 */
+  .kv{display:grid;grid-template-columns:auto 1fr;gap:8px 12px;font-size:.9rem}
+  .kv dt{font-weight:800;color:var(--navy)}
+  .kv dd{margin:0}
+  .price{display:flex;gap:10px;margin:4px 0 2px}
+  .price div{flex:1;background:var(--sky);border-radius:12px;padding:10px;text-align:center}
+  .price b{display:block;font-size:1.25rem;color:var(--navy)}
+  .price span{font-size:.78rem;color:var(--muted)}
+  .ticket{border:2px dashed #f0b860;background:#fffaf0;border-radius:14px;padding:12px 14px;margin-top:12px}
+  .ticket .big{font-size:1.05rem;font-weight:800;color:#9a5a00}
+  .ticket ul{margin:8px 0 0;padding-left:18px;font-size:.88rem}
+
+  /* 機捷轉乘流程 */
+  .node{display:flex;gap:12px;align-items:flex-start}
+  .node .ic{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:1.2rem}
+  .node .tx b{display:block}
+  .node .tx span{font-size:.85rem;color:var(--muted)}
+  .arrow{margin:4px 0 4px 19px;width:2px;height:22px;background:var(--line)}
+  .ic.p{background:#efe9fb} .ic.t{background:#e3f6f8} .ic.o{background:#fff1dc}
+  .tag{display:inline-block;font-size:.75rem;font-weight:800;color:#fff;background:var(--purple);
+       border-radius:6px;padding:0 6px;margin-left:4px;vertical-align:1px}
+  .tag.t{background:var(--teal)}
+
+  footer{text-align:center;font-size:.75rem;color:var(--muted);padding:16px 14px 6px}
+
+  .bottom{position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(255,255,255,.96);
+          backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid var(--line);
+          padding:8px 12px calc(8px + env(safe-area-inset-bottom))}
+  .bottom .in{max-width:520px;margin:0 auto;display:grid;grid-template-columns:1fr 1.4fr;gap:10px}
+  .bottom a{display:flex;align-items:center;justify-content:center;gap:6px;min-height:48px;
+            border-radius:14px;text-decoration:none;font-weight:800;font-size:.95rem}
+  .bottom .ghost{background:var(--sky);color:var(--navy)}
+  .bottom .main{background:linear-gradient(135deg,var(--blue),var(--navy));color:#fff}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Make your own way</div>
+    <h1>自行前往交通指南</h1>
+  </header>
+
+  <div class="switch">
+    <div class="seg">
+      <button data-d="xpark">🐟 Xpark<small>上午・水族館</small></button>
+      <button data-d="taimall">☕ 台茂<small>下午・島語下午茶</small></button>
+    </div>
+    <nav class="sub" id="sub-xpark">
+      <a href="#x-hsr">🚄 高鐵</a><a href="#x-mrt">🚇 機場捷運</a><a href="#x-bus">🚌 公車／台鐵</a><a href="#x-car">🚗 開車</a><a href="#x-park">🅿️ 停車</a>
+    </nav>
+    <nav class="sub" id="sub-taimall" hidden>
+      <a href="#t-car">🚗 自行開車</a><a href="#t-bus">🚌 客運公車</a><a href="#t-mrt">🚇 機場捷運</a>
+    </nav>
+  </div>
+
+  <!-- ===================== Xpark ===================== -->
+  <div class="panel" id="panel-xpark">
+    <div class="hero">
+      <img src="trip-xpark.jpg" alt="Xpark 水族館">
+      <div class="t"><div><b>Xpark 水族館</b><span>桃園市中壢區春德路105號（置地廣場桃園內）</span></div>
+        <a class="btn" data-q="Xpark 桃園市中壢區春德路105號" target="_blank" rel="noopener">導航</a></div>
+    </div>
+    <p class="intro">鄰近高鐵與機場捷運站，無論搭乘大眾運輸或自行開車皆十分便利。</p>
+
+    <section class="blk h-red" id="x-hsr">
+      <h2>🚄 台灣高鐵<span class="min">步行約 9 分鐘</span></h2>
+      <div class="in">
+        <ol class="steps">
+          <li>搭乘高鐵至 <b>高鐵桃園站</b>。</li>
+          <li>從 <b>B1 連通道</b> 依指標前往機場捷運方向（或由 <span class="hl">6 號出口</span> 出站）。</li>
+          <li>經過聯通天橋進入 <b>華泰名品城</b>。</li>
+          <li>抵達 <b>第一噴水池廣場</b> 後右轉。</li>
+          <li>至 <b>第二噴水池廣場</b> 左轉華泰名品城大道。</li>
+          <li>搭手扶梯或樓梯上 <b>二樓迴廊</b> 直行。</li>
+          <li class="goal">即可抵達 Xpark。</li>
+        </ol>
+        <div class="tip">💡 若從 <b>高鐵新竹站</b> 出發，車程僅需約 <b>10 分鐘</b> 即可抵達桃園站。</div>
+      </div>
+    </section>
+
+    <section class="blk h-purple" id="x-mrt">
+      <h2>🚇 桃園機場捷運<span class="min">步行約 8 分鐘</span></h2>
+      <div class="in">
+        <ol class="steps">
+          <li>搭乘機捷至 <b>A18 高鐵桃園站</b>（機場捷運高鐵桃園站）。</li>
+          <li>從 <span class="hl">2 號出口</span> 出站。</li>
+          <li>往右側聯通天橋進入 <b>華泰名品城</b>。</li>
+          <li>循噴水池廣場與二樓迴廊動線（同高鐵路線）。</li>
+          <li class="goal">即可抵達 Xpark。</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="blk h-teal" id="x-bus">
+      <h2>🚌 公車／台鐵轉乘</h2>
+      <div class="in">
+        <h3 class="mini">公車<span class="hl" style="margin-left:auto;font-size:.78rem">步行約 10 分鐘</span></h3>
+        <ol class="steps">
+          <li>搭乘市區或高鐵快捷公車至「<b>高鐵桃園站</b>」公車站下車。</li>
+          <li>往斜前方標示「A18 高鐵桃園站」的 <b>紅色電扶梯</b> 上樓，進入連通天橋。</li>
+          <li class="goal">經華泰名品城即可抵達 Xpark。</li>
+        </ol>
+
+        <h3 class="mini">台鐵轉乘</h3>
+        <div class="route first"><span class="no">170</span><div><span class="co">台鐵 中壢車站 轉乘</span><span class="path">→ 高鐵桃園站</span></div><span class="dur">約 20 分</span></div>
+        <div class="route"><span class="no">208</span><div><span class="co">台鐵 內壢車站 轉乘</span><span class="path">→ 高鐵桃園站</span></div><span class="dur">約 40 分</span></div>
+        <div class="route"><span class="no">206</span><div><span class="co">台鐵 桃園車站 轉乘</span><span class="path">→ 高鐵桃園站</span></div><span class="dur">約 50 分</span></div>
+        <div class="tip">抵達高鐵桃園站後，依上方「公車」路線步行前往。</div>
+      </div>
+    </section>
+
+    <section class="blk h-navy" id="x-car">
+      <h2>🚗 自行開車<span class="min">交流道約 10 分鐘</span></h2>
+      <div class="in">
+        <ol class="steps">
+          <li>行駛 <b>國道二號（機場支線）</b>，於 <span class="hl">大竹交流道</span> 下。</li>
+          <li>往 <b>青埔／桃園高鐵</b> 方向行駛約 10 分鐘即可抵達。</li>
+        </ol>
+        <div class="tip">🧭 導航可設定「<b>Xpark</b>」或「<b>置地廣場桃園</b>」。</div>
+        <a class="btn wide" data-q="置地廣場桃園" target="_blank" rel="noopener">🧭 導航至置地廣場桃園</a>
+      </div>
+    </section>
+
+    <section class="blk h-green" id="x-park">
+      <h2>🅿️ 停車場與折抵</h2>
+      <div class="in">
+        <dl class="kv">
+          <dt>停車場</dt><dd>置地廣場桃園 附設 <b>24 小時地下停車場</b>（與新光影城、COZZI Blu 和逸飯店共用）</dd>
+          <dt>入口</dt><dd><b>B 區入口</b>，位於置地廣場．桃園 B 區</dd>
+          <dt>步行</dt><dd>至館內約 3～5 分鐘</dd>
+        </dl>
+        <h3 class="mini">收費標準（平假日相同）</h3>
+        <div class="price">
+          <div><b>$30</b><span>每半小時</span></div>
+          <div><b>$60</b><span>每小時</span></div>
+        </div>
+        <div class="ticket">
+          <div class="big">🎟️ 1 張 Xpark 成人票券 ＝ 折抵 2 小時</div>
+          <ul>
+            <li>每輛車限抵一張、恕不累計。</li>
+            <li>離場前至停車場繳費機 <b>掃描門票 QR Code</b> 即可折抵。</li>
+          </ul>
+        </div>
+        <div class="tip">🚙 若遇假日館內車位客滿，亦可停放於鄰近的 <b>華泰名品城停車場</b>（同樣適用一張成人票折抵 2 小時之規則）。</div>
+        <a class="btn wide ghost" data-q="華泰名品城 停車場 桃園" target="_blank" rel="noopener">🅿️ 導航至華泰名品城停車場</a>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===================== 台茂 ===================== -->
+  <div class="panel" id="panel-taimall" hidden>
+    <div class="hero">
+      <img src="trip-island.jpg" alt="島語 桃園台茂店">
+      <div class="t"><div><b>台茂購物中心（島語 6F）</b><span>桃園市蘆竹區南崁路一段112號6樓</span></div>
+        <a class="btn" data-q="台茂購物中心 桃園市蘆竹區南崁路一段112號" target="_blank" rel="noopener">導航</a></div>
+    </div>
+    <p class="intro">可透過國道一號自行開車前往，或搭乘來自雙北、桃園各區的多條客運路線，抵達周邊步行距離內的站牌。</p>
+
+    <section class="blk h-navy" id="t-car">
+      <h2>🚗 自行開車</h2>
+      <div class="in">
+        <ol class="steps">
+          <li>行駛 <b>國道 1 號</b>（中山高速公路），於 <span class="hl">49 公里</span> 處下「<b>桃園（南崁）交流道</b>」。</li>
+          <li>往 <b>蘆竹及桃園國際機場</b> 方向直行，車程約 <b>5 分鐘</b> 即可抵達。</li>
+        </ol>
+        <a class="btn wide" data-q="台茂購物中心 桃園市蘆竹區南崁路一段112號" target="_blank" rel="noopener">🧭 開啟 Google 地圖導航</a>
+        <a class="btn wide ghost" href="https://www.taimall.com.tw/info-parking.php" target="_blank" rel="noopener">🅿️ 車位數查詢</a>
+      </div>
+    </section>
+
+    <section class="blk h-teal" id="t-bus">
+      <h2>🚌 大眾運輸（客運與公車）</h2>
+      <div class="in">
+        <div class="stopnote">🚏 下車點皆為「台茂」或「台茂購物中心」站</div>
+
+        <h3 class="mini" style="margin-top:16px">台北市出發</h3>
+        <div class="route first"><span class="no">5250</span><div><span class="co">亞通巴士</span><span class="path">松山機場－南崁－竹圍</span></div></div>
+        <div class="route"><span class="no">1841</span><div><span class="co">國光客運</span><span class="path">松山機場－南崁－桃園國際機場</span></div></div>
+        <div class="route"><span class="no">1842</span><div><span class="co">國光客運</span><span class="path">松山機場－南崁－大園</span></div></div>
+        <div class="route"><span class="no">1961</span><div><span class="co">大有巴士</span><span class="path">台北西站－南崁－大園</span></div></div>
+        <div class="route"><span class="no">1356</span><div><span class="co">葛瑪蘭客運</span><span class="path">圓山轉運站－南崁－溪洲</span></div></div>
+
+        <h3 class="mini">新北市出發</h3>
+        <div class="route first"><span class="no">952</span><div><span class="co">首都客運</span><span class="path">板橋－南崁</span></div></div>
+
+        <h3 class="mini">桃園市區出發</h3>
+        <div class="route first" style="padding-top:0"><div><span class="co">桃園客運</span></div></div>
+        <div class="chips"><span class="no">5015</span><span class="no">5022</span><span class="no">5023</span><span class="no">5059</span></div>
+
+        <h3 class="mini">中壢出發</h3>
+        <div class="route first"><span class="no">703</span><div><span class="co">亞通客運</span><span class="path">竹圍－中壢</span></div></div>
+      </div>
+    </section>
+
+    <section class="blk h-purple" id="t-mrt">
+      <h2>🚇 機場捷運轉乘</h2>
+      <div class="in">
+        <div class="node"><div class="ic p">🚇</div>
+          <div class="tx"><b>機場捷運 坑口站<span class="tag">A11</span></b><span>搭乘機場捷運至坑口站，出站</span></div></div>
+        <div class="arrow"></div>
+        <div class="node"><div class="ic t">🚌</div>
+          <div class="tx"><b>轉搭桃園客運<span class="tag t">GR</span></b><span>捷運坑口站－桃園後火車站</span></div></div>
+        <div class="arrow"></div>
+        <div class="node"><div class="ic o">📍</div>
+          <div class="tx"><b>「台茂」站下車</b><span>即可抵達台茂購物中心</span></div></div>
+      </div>
+    </section>
+  </div>
+
+  <footer>交通資訊僅供參考，實際班次、路線與停車規定請以各單位公告為準</footer>
+</div>
+
+<div class="bottom"><div class="in">
+  <a class="ghost" href="trip.html">🗓️ 行程</a>
+  <a class="main" id="navBottom" target="_blank" rel="noopener">🧭 導航到 Xpark</a>
+</div></div>
+
+<script>
+const gmap = q => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
+document.querySelectorAll("[data-q]").forEach(a => a.href = gmap(a.dataset.q));
+
+const DEST = {
+  xpark:   { label:"🧭 導航到 Xpark", q:"Xpark 桃園市中壢區春德路105號" },
+  taimall: { label:"🧭 導航到台茂",   q:"台茂購物中心 桃園市蘆竹區南崁路一段112號" }
+};
+const navBottom = document.getElementById("navBottom");
+function show(d, push){
+  document.querySelectorAll(".seg button").forEach(b => b.classList.toggle("on", b.dataset.d === d));
+  ["xpark","taimall"].forEach(k => {
+    document.getElementById("panel-"+k).hidden = k !== d;
+    document.getElementById("sub-"+k).hidden = k !== d;
+  });
+  navBottom.textContent = DEST[d].label;
+  navBottom.href = gmap(DEST[d].q);
+  if(push){ history.replaceState(null, "", "#" + d); window.scrollTo({top:0, behavior:"smooth"}); }
+}
+document.querySelectorAll(".seg button").forEach(b => b.onclick = () => show(b.dataset.d, true));
+
+// 子選單：平滑捲動
+document.querySelectorAll(".sub a").forEach(a => a.onclick = e => {
+  e.preventDefault();
+  document.querySelector(a.getAttribute("href")).scrollIntoView({behavior:"smooth", block:"start"});
+});
+
+// 網址 #taimall / #t-xxx 開啟台茂，其餘預設 Xpark
+const h = location.hash.slice(1);
+const start = (h === "taimall" || h.startsWith("t-")) ? "taimall" : "xpark";
+show(start, false);
+if(h && h !== start){ const el = document.getElementById(h); if(el) setTimeout(() => el.scrollIntoView(), 50); }
+</script>
+</body>
+</html>
