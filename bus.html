@@ -28,6 +28,8 @@
          padding:calc(18px + env(safe-area-inset-top)) 18px 18px;text-align:center}
   header h1{margin:0;font-size:1.35rem;letter-spacing:.05em}
   header p{margin:4px 0 0;font-size:.85rem;opacity:.85}
+  header .back{display:inline-block;margin-top:10px;color:#fff;text-decoration:none;font-size:.85rem;
+               font-weight:700;background:rgba(255,255,255,.18);border-radius:999px;padding:6px 14px}
 
   /* 固定在上方的查詢列 + 分頁 */
   .sticky{position:sticky;top:0;z-index:10;background:var(--bg);padding:12px 14px 10px;
@@ -94,6 +96,7 @@
   <header>
     <h1>🚌 遊覽車分配名單</h1>
     <p>人數含員工本人及眷屬</p>
+    <a class="back" href="trip.html">🗓️ 查看旅遊行程 ›</a>
   </header>
 
   <div class="sticky">
@@ -126,7 +129,7 @@ const BUSES = [
       ["Teresa Yu",2],["Josh Lin",1],["Wolf Wang",1],["Dennis Tsai",3],
       ["Michael Huang",1,"回程不搭車"],["John Chu",2,"回程不搭車"]
     ],
-    joiners:[["Patrick Hsu",1,"Xpark → 台茂"]] },
+    joiners:[["Max KC Chen",2,"Xpark → 台茂"],["Patrick Hsu",1,"Xpark → 台茂"]] },
   { id:"B", name:"B 車",
     members:[
       ["Janis Lee",1],["Joseph Chen",3],["Venlen Liu",2],["Austin Chung",2],
