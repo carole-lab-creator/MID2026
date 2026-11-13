@@ -61,7 +61,7 @@
   .wide.ghost{background:var(--sky);color:var(--navy)}
 
   section.blk{margin:14px 14px 0;background:var(--card);border-radius:18px;overflow:hidden;
-              box-shadow:0 4px 16px rgba(15,61,122,.08);scroll-margin-top:130px}
+              box-shadow:0 4px 16px rgba(15,61,122,.08);scroll-margin-top:170px}
   .blk h2{margin:0;padding:12px 16px;font-size:1.05rem;color:#fff;display:flex;align-items:center;gap:8px}
   .blk h2 .min{margin-left:auto;background:rgba(255,255,255,.22);border-radius:999px;padding:1px 10px;font-size:.78rem}
   .h-red h2{background:var(--red)} .h-purple h2{background:var(--purple)} .h-teal h2{background:var(--teal)}
@@ -115,6 +115,24 @@
        border-radius:6px;padding:0 6px;margin-left:4px;vertical-align:1px}
   .tag.t{background:var(--teal)}
 
+  /* 台茂停車 */
+  .warn{background:#fdecea;color:#a3321f;border-radius:12px;padding:10px 12px;font-size:.88rem;font-weight:600}
+  .lead{margin:10px 0 4px;font-size:.9rem;color:#38506a}
+  .opt{border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:10px}
+  .opt.alt{background:#f6fbf8;border-color:#cfe8dc}
+  .opt p{margin:6px 0 0;font-size:.88rem}
+  .oh{display:flex;align-items:center;gap:8px}
+  .oh b{color:var(--navy)}
+  .oi{font-size:1.15rem}
+  .ob{margin-left:auto;background:#fff2d6;color:#9a5a00;font-size:.72rem;font-weight:800;border-radius:999px;padding:1px 8px}
+  .cardtbl{margin-top:8px;display:grid;gap:6px}
+  .cardtbl div{display:flex;justify-content:space-between;align-items:center;background:var(--sky);border-radius:10px;padding:7px 10px;font-size:.86rem}
+  .cardtbl b{color:var(--navy)}
+  .lot{display:flex;align-items:center;gap:10px;background:#fff;border-radius:12px;padding:9px 10px;margin-top:8px;border:1px solid #d7ebe1}
+  .lot div{flex:1;min-width:0}
+  .lot b{display:block;font-size:.9rem}
+  .lot span{font-size:.78rem;color:var(--muted)}
+  .cap{margin-top:8px;font-size:.88rem;font-weight:600;color:var(--green)}
   footer{text-align:center;font-size:.75rem;color:var(--muted);padding:16px 14px 6px}
 
   .bottom{position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(255,255,255,.96);
@@ -144,7 +162,7 @@
       <a href="#x-hsr">🚄 高鐵</a><a href="#x-mrt">🚇 機場捷運</a><a href="#x-bus">🚌 公車／台鐵</a><a href="#x-car">🚗 開車</a><a href="#x-park">🅿️ 停車</a>
     </nav>
     <nav class="sub" id="sub-taimall" hidden>
-      <a href="#t-car">🚗 自行開車</a><a href="#t-bus">🚌 客運公車</a><a href="#t-mrt">🚇 機場捷運</a>
+      <a href="#t-car">🚗 自行開車</a><a href="#t-park">🅿️ 停車</a><a href="#t-bus">🚌 客運公車</a><a href="#t-mrt">🚇 機場捷運</a>
     </nav>
   </div>
 
@@ -260,6 +278,49 @@
         </ol>
         <a class="btn wide" data-q="台茂購物中心 桃園市蘆竹區南崁路一段112號" target="_blank" rel="noopener">🧭 開啟 Google 地圖導航</a>
         <a class="btn wide ghost" href="https://www.taimall.com.tw/info-parking.php" target="_blank" rel="noopener">🅿️ 車位數查詢</a>
+      </div>
+    </section>
+
+    <section class="blk h-green" id="t-park">
+      <h2>🅿️ 台茂停車資訊</h2>
+      <div class="in">
+        <div class="warn">⚠️「島語」屬於<b>不參加</b>館內一般消費停車折抵的特定櫃位之一。</div>
+        <p class="lead">將車輛停放在館內停車場，仍可透過以下方式獲得免費停車時數：</p>
+
+        <div class="opt">
+          <div class="oh"><span class="oi">📱</span><b>MORE 利卡會員</b><span class="ob">平日限定</span></div>
+          <p>下載台茂 APP 註冊成為會員，平日可享「<b>不限消費金額</b>」免費停車 <span class="hl">2.5 小時</span>（若具兒童卡註記可再加 1 小時）。</p>
+        </div>
+
+        <div class="opt">
+          <div class="oh"><span class="oi">💳</span><b>台北富邦台茂聯名卡</b></div>
+          <p>持聯名卡實體卡刷卡（不限金額，可於館內其他參加折抵之櫃位任意消費）。</p>
+          <div class="cardtbl">
+            <div><span>普卡／金卡／白金卡</span><b>2 小時</b></div>
+            <div><span>鈦金卡</span><b>3 小時</b></div>
+          </div>
+        </div>
+
+        <div class="opt">
+          <div class="oh"><span class="oi">🛍️</span><b>搭配館內其他消費</b></div>
+          <p>在台茂其他櫃位消費並積點，依會員或非會員門檻累積折抵時數。</p>
+          <div class="cardtbl">
+            <div><span>當日上限｜會員</span><b>6 小時</b></div>
+            <div><span>當日上限｜非會員</span><b>5 小時</b></div>
+          </div>
+        </div>
+
+        <div class="opt alt">
+          <div class="oh"><span class="oi">🚙</span><b>改停周邊上限停車場</b></div>
+          <p>若為假日用餐、無聯名卡且沒有其他購物計畫，建議直接停放至：</p>
+          <div class="lot"><div><b>Hi PARKING 南崁聯福停車場</b><span>台茂後方巷弄</span></div>
+            <a class="btn" data-q="Hi PARKING 南崁聯福停車場" target="_blank" rel="noopener">導航</a></div>
+          <div class="lot"><div><b>Times 蘆竹南崁路2停車場</b><span>南崁路一段上</span></div>
+            <a class="btn" data-q="Times 蘆竹南崁路2停車場" target="_blank" rel="noopener">導航</a></div>
+          <div class="cap">💰 12 小時最高上限 <b>140 元</b></div>
+        </div>
+
+        <a class="btn wide ghost" href="https://www.taimall.com.tw/info-parking.php" target="_blank" rel="noopener">🅿️ 台茂車位數查詢</a>
       </div>
     </section>
 
