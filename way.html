@@ -140,6 +140,12 @@
   .pinfo div{display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px dashed var(--line);font-size:.84rem}
   .pinfo div:last-child{border-bottom:0}
   .pinfo span{color:var(--muted)} .pinfo b,.pinfo a{color:var(--navy);font-weight:800;text-align:right}
+  .voucher{background:linear-gradient(135deg,#17876a,#0f6b54);color:#fff;border-radius:16px;padding:14px 16px;margin-bottom:10px}
+  .voucher .vh{font-size:.9rem;font-weight:800;opacity:.95}
+  .voucher .vbig{font-size:1.15rem;font-weight:700;margin-top:2px}
+  .voucher .vbig b{font-size:1.9rem;font-weight:900;margin:0 2px}
+  .voucher p{margin:6px 0 0;font-size:.88rem}
+  .warn{margin-top:0}
   footer{text-align:center;font-size:.75rem;color:var(--muted);padding:16px 14px 6px}
 
   .bottom{position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(255,255,255,.96);
@@ -291,8 +297,13 @@
     <section class="blk h-green" id="t-park">
       <h2>🅿️ 台茂停車資訊<span class="min">週六・假日適用</span></h2>
       <div class="in">
-        <div class="warn">⚠️「島語」<b>不參加</b>館內消費停車折抵（UNIQLO、海底撈、島語、美麗新影城不參加）。</div>
-        <p class="lead">活動日為<b>週六</b>，以下為假日可用的免費停車方式：</p>
+        <div class="voucher">
+          <div class="vh">🎟️ 島語停車折抵券</div>
+          <div class="vbig">每台車 <b>4 小時</b></div>
+          <p>由島語提供，離場前請<b>自行至停車場繳費機</b>折抵。</p>
+        </div>
+        <div class="warn">⚠️ 島語消費<b>不參加</b>館內一般消費停車折抵（UNIQLO、海底撈、島語、美麗新影城不參加），請使用上方島語折抵券。</div>
+        <p class="lead">若停車超過 4 小時，週六（假日）還可搭配以下方式增加免費時數：</p>
 
         <div class="opt">
           <div class="oh"><span class="oi">🛍️</span><b>館內其他櫃位消費折抵</b><span class="ob">假日</span></div>
