@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<meta name="theme-color" content="#1d3557">
+<title>島語桃園店 12/5 座位查詢</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="🍽️ 島語桃園店 12/5 座位查詢">
+<meta property="og:description" content="輸入英文或中文名字，立即查詢您的區域與桌號">
+<meta property="og:url" content="https://carole-lab-creator.github.io/MID2026/seat.html">
+<style>
+  :root{
+    --bg:#eef2f6; --card:#fff; --ink:#1f2933; --muted:#6b7785; --line:#e6ebf0;
+    --A:#2b8fd6; --A-dark:#155b8c; --A-soft:#dcefff;
+    --B:#e0734a; --B-dark:#9a3d1a; --B-soft:#fde4d9;
+    --C:#2f9e6e; --C-dark:#1c6446; --C-soft:#dcf3e8;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;font-family:-apple-system,"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif;
+       background:var(--bg);color:var(--ink);line-height:1.45;
+       padding-bottom:calc(24px + env(safe-area-inset-bottom))}
+  .wrap{max-width:520px;margin:0 auto}
+  header{background:linear-gradient(135deg,#1d3557,#2b8fd6);color:#fff;
+         padding:calc(18px + env(safe-area-inset-top)) 18px 18px;text-align:center}
+  header h1{margin:0;font-size:1.35rem;letter-spacing:.05em}
+  header p{margin:4px 0 0;font-size:.85rem;opacity:.85}
+  header .back{display:inline-block;margin-top:10px;color:#fff;text-decoration:none;font-size:.85rem;
+               font-weight:700;background:rgba(255,255,255,.18);border-radius:999px;padding:6px 14px}
+  .sticky{position:sticky;top:0;z-index:10;background:var(--bg);padding:12px 14px 10px;
+          box-shadow:0 4px 10px -8px rgba(0,0,0,.25)}
+  .search{position:relative}
+  .search input{width:100%;font-size:16px;padding:13px 44px 13px 42px;border:1.5px solid var(--line);border-radius:14px;
+     background:#fff;outline:none;-webkit-appearance:none;appearance:none}
+  .search input:focus{border-color:var(--A)}
+  .search input::-webkit-search-cancel-button,.search input::-webkit-search-decoration{-webkit-appearance:none;display:none}
+  .search .ico{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:1.05rem}
+  .search .clear{position:absolute;right:6px;top:50%;transform:translateY(-50%);
+     border:0;background:#dfe5ec;color:#4a5560;width:30px;height:30px;border-radius:50%;font-size:1rem;display:none}
+  .tabs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
+  .tab{border:0;border-radius:12px;padding:10px 6px;font-size:1rem;font-weight:700;background:#fff;color:var(--muted);min-height:48px}
+  .tab small{display:block;font-weight:600;font-size:.75rem}
+  .tab.A.on{background:var(--A);color:#fff} .tab.B.on{background:var(--B);color:#fff} .tab.C.on{background:var(--C);color:#fff}
+  #result{margin:12px 14px 0;display:none}
+  .hitcard{border-radius:16px;padding:14px 16px;color:#fff;margin-bottom:8px}
+  .hitcard.A{background:linear-gradient(135deg,var(--A),var(--A-dark))}
+  .hitcard.B{background:linear-gradient(135deg,var(--B),var(--B-dark))}
+  .hitcard.C{background:linear-gradient(135deg,var(--C),var(--C-dark))}
+  .hitcard .top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .hitcard .who{font-size:1.1rem;font-weight:700}
+  .hitcard .sub{font-size:.85rem;opacity:.9;margin-top:2px}
+  .hitcard .tbl{font-size:2rem;font-weight:800;white-space:nowrap;text-align:right;line-height:1.1}
+  .hitcard .tbl small{display:block;font-size:.8rem;font-weight:700;opacity:.9}
+  .hitcard .mates{margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,.35);font-size:.85rem}
+  .hitcard .go{margin-top:8px;display:inline-block;color:#fff;font-size:.82rem;font-weight:700;
+               background:rgba(255,255,255,.2);border-radius:999px;padding:4px 12px;cursor:pointer;border:0}
+  .nohit{background:#fff;border-radius:14px;padding:14px;text-align:center;color:#b42318;font-weight:600}
+  .panel{margin:12px 14px 0;background:var(--card);border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+  .panel-head{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;font-weight:700}
+  .panel.A .panel-head{background:var(--A-soft);color:var(--A-dark)}
+  .panel.B .panel-head{background:var(--B-soft);color:var(--B-dark)}
+  .panel.C .panel-head{background:var(--C-soft);color:var(--C-dark)}
+  .panel-head .tot{background:#fff;border-radius:999px;padding:2px 12px;font-size:.9rem}
+  .map{display:block;padding:10px;border-bottom:1px solid var(--line);background:#fff}
+  .map img{width:100%;display:block;border-radius:8px}
+  .map span{display:block;text-align:center;font-size:.75rem;color:var(--muted);margin-top:4px}
+  .table{border-top:1px solid var(--line);padding:10px 16px;transition:background .3s}
+  .table h3{margin:0 0 4px;font-size:.95rem;display:flex;justify-content:space-between}
+  .table h3 span{font-weight:600;color:var(--muted);font-size:.82rem}
+  .person{display:flex;justify-content:space-between;padding:3px 0;font-size:.95rem}
+  .person .zh{color:var(--muted);font-size:.85rem;margin-left:6px}
+  .person .pax{flex:none;font-weight:700;font-size:.85rem;background:#f1f4f7;border-radius:8px;padding:1px 8px}
+  .person.hit{background:#fff6a8;border-radius:6px}
+  .table.hit{background:#fffbe0}
+  .note{font-size:.75rem;color:var(--muted)}
+  footer{text-align:center;color:var(--muted);font-size:.75rem;margin-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🍽️ 島語桃園店 座位查詢</h1>
+    <p>12/5 包場・人數含員工本人及眷屬</p>
+    <a class="back" href="trip.html">🗓️ 查看旅遊行程 ›</a>
+  </header>
+  <div class="sticky">
+    <div class="search">
+      <span class="ico">🔍</span>
+      <input id="q" type="search" inputmode="search" enterkeyhint="search"
+             placeholder="輸入英文或中文名字查詢桌號" autocomplete="off" autocapitalize="off" spellcheck="false">
+      <button class="clear" id="clear" aria-label="清除">✕</button>
+    </div>
+    <div class="tabs" id="tabs"></div>
+  </div>
+  <div id="result"></div>
+  <div id="panels"></div>
+  <footer>如座位有誤，請洽活動承辦人</footer>
+</div>
+<script>
+/* ===== 座位資料：t=桌號, m=[英文名, 中文名, 人數] ===== */
+const TABLES = [{"t":"A1A","m":[["Brody Hsu","許博源",2]]},{"t":"A1","m":[["Tom Lin","林祐祥",2]]},{"t":"A2","m":[["Wynne Fang","房巧雯",1],["Michael Huang","黃子恆",1],["Jimmy Shen","沈政吉",2]]},{"t":"A3","m":[["ChihLin Huang","黃志霖",2],["Eric CY Li","李家宇",3]]},{"t":"A4","m":[["Amy Wang","王曉涵",2],["Ellie Chen","陳妤綺",1],["Mohd Azim","阿齊姆",1]]},{"t":"A5","m":[["Steven Pao","鮑思丞",3],["Alma Chen","陳宣君",2]]},{"t":"A6","m":[["Corrine Feng","馮姿貌",4]]},{"t":"A7","m":[["Bonnie Liu","劉欣宜",2]]},{"t":"A7A","m":[["Wolf Wang","王存敬",1],["MengChi Wang","王孟琪",1]]},{"t":"A8","m":[["Deipei Yang","楊得培",2],["Ann Nguyen","阮氏安",2]]},{"t":"A9","m":[["Locus Fan","范皓翔",4]]},{"t":"A10","m":[["Alan Chou","周侑霖",1],["Arvin Liao","廖健廷",1],["Sanyo Shih","施盛耀",1],["Roy WJ Chen","陳維哲",1],["Bert Hsu","許明風",1]]},{"t":"A11","m":[["Yanda Chen","陳彥達",3],["Adam Lin","林學楚",1],["Willy Lee","李振緯",1]]},{"t":"B1","m":[["Venlen Liu","劉萬能",2],["Louis HC Lin","林信昌",1]]},{"t":"B2","m":[["Austin Chung","鍾炳春",2],["Abbie Liu","劉千瑞",2]]},{"t":"B3","m":[["Lewis Liu","劉奕強",1],["Ian Cheng","鄭紹秋",1]]},{"t":"B4","m":[["Andrea Carolina","柯凱伶",2]]},{"t":"B5","m":[["Ivy Huang","黃鈺婷",2]]},{"t":"B5A","m":[["Clifford Lo","羅元廷",1],["Nathan Ngai","魏俊賢",1]]},{"t":"B6","m":[["Teresa Sf Liu","劉曉芳",5]]},{"t":"B7","m":[["Monica Wu","吳明純",4]]},{"t":"B8/B9","m":[["YunHan Wang","王韻涵",8]]},{"t":"B10","m":[["Jay Ho","何文傑",1]]},{"t":"B11","m":[["Wendy Hsieh","謝卉平",1],["Gary Xu","許祐豪",2],["Anna Hsieh","謝佳諭",3]]},{"t":"B12","m":[["Luke Lu","呂偉豪",2],["Janis Lee","李芝蓁",1],["Joseph Chen","陳弘隆",3]]},{"t":"B13","m":[["Tony CY Huang","黃章祐",2],["Celia Wei","魏以婷",2],["Lichih Chou","周立志",2]]},{"t":"B14","m":[["Brian Tran","陳春祿",1],["Frank Cheng","鄭耀鴻",2],["Bright Ding","丁維棕",2]]},{"t":"B15","m":[["Rex Chou","周凱翔",4],["Mike Ni","倪楚沅",2]]},{"t":"B16","m":[["Dennis Tsai","蔡棋文",3],["Rick Weng","翁睿楚",3]]},{"t":"B17","m":[["Dean Chiu","邱鼎翔",5]]},{"t":"B18","m":[["Josh Lin","林宏源",1],["Stanley CC Hsu","許家誠",5]]},{"t":"B19","m":[["Nora Hsu","徐秋婷",4],["ChienChung Li","李建忠",2]]},{"t":"B20","m":[["Michelle Chiu","邱亭瑜",3],["Danny Chiu","邱韡",2],["Benson Ho","何文彬",1]]},{"t":"B21","m":[["Link Peng","彭哲信",2],["Scott Sun","孫佳暐",4]]},{"t":"B22","m":[["Kilean Lee","李孟穎",3],["Coby Mong","孟慶勳",3]]},{"t":"B23","m":[["YuanYu Chen","陳沅佑",1]]},{"t":"B24","m":[["Hengson Huang","黃衡",2]]},{"t":"B25","m":[["Alejandro Chang","張悍卓",2]]},{"t":"B26","m":[["Sam Shiu","徐聖淵",2]]},{"t":"B27","m":[["Grace Dai","戴欣如",3],["Jessie Dai","戴淑芬",2]]},{"t":"B28","m":[["Mei Lin","林美琳",3]]},{"t":"B29","m":[["Sunny Hung","洪淑琪",2]]},{"t":"B30","m":[["Bella Wang","王紀荏",2],["Alice Fu","傅鈞莉",5]]},{"t":"B30A","m":[["Ruby Chang","張筱嬋",2]]},{"t":"B31","m":[["Andy PH Huang","黃柏翔",2]]},{"t":"B32","m":[["Jerry Hung","洪名宏",3]]},{"t":"B33","m":[["Peggy Tsai","蔡珮蓉",2]]},{"t":"B34","m":[["Vincent Chang","張仁勇",4]]},{"t":"B35","m":[["Sophie Chen","陳書嫻",3],["Kent Tan","陳建豪",1]]},{"t":"B36","m":[["Mei XM Lin","林秀美",4]]},{"t":"B37","m":[["Hebe Tsai","蔡玲欣",2],["Teresa Yu","余佩珊",2]]},{"t":"B38","m":[["Doreen Wei","魏吟惠",3]]},{"t":"C1","m":[["Mason Chiu","邱明健",4]]},{"t":"C2","m":[["Pin Wu","吳品瑩",5]]},{"t":"C3","m":[["Rainy Huang","黃筱琁",4]]},{"t":"C4","m":[["Summer Lu","呂芊芊",3]]},{"t":"C5","m":[["Mina PH Lee","李品萱",2],["Jimmy Yang","楊竣堯",4]]},{"t":"C6","m":[["Grace Tien","田瑜君",5],["Vincent Ww Chen","陳文瑋",1]]},{"t":"C7","m":[["ShanYing Pan","潘善盈",1],["Ned Ku","辜煜夫",2],["Amanda Lai","賴品秀",3]]},{"t":"C8","m":[["Chris Yan","顏士紘",1],["Carol Chiu","邱芷妍",2],["Log Hsieh","謝祥耕",3]]},{"t":"C9","m":[["Xavier Wang","王孝哲",1],["Tinmy Chen","陳筵",2],["Chingchen Lin","林崢程",1],["Luca Chen","陳力嘉",1],["Heaven Lin","林俊廷",1]]},{"t":"C10","m":[["Richard Liu","劉湘肇",1],["Jill Chen","陳巧芸",4],["Vicky Li","李玟君",1]]},{"t":"C11","m":[["Patrick Hsu","徐仲康",1],["Sam Sun","孫聖智",3],["Jenny Wang","汪芊蓉",2]]},{"t":"C12","m":[["Luka Chang","張哲偉",1],["Muhiska Ramadhan","里茲卡",1]]},{"t":"C12A","m":[["Jackson Lin","林柏韜",4]]},{"t":"C13","m":[["Diamo Cheng","鄭至凱",1],["Karlie Wu","吳怡穎",1]]},{"t":"C14","m":[["Daniel Sh Lin","林世航",2],["Brian KW Huang","黃康維",2],["Sean Huang","黃子鈞",1],["Ryan CY Yeh","葉承祐",1]]},{"t":"C15","m":[["Pohsun Chen","陳柏勳",3],["Henry Yu","余冠亨",1],["Weng Chan","陳詠彥",2]]},{"t":"C16","m":[["John Chu","朱柏璋",2],["Kevin Huang","黃寶毅",1]]},{"t":"C16A","m":[["Max KC Chen","陳可謙",2]]},{"t":"C17","m":[["Carole Yu","余文新",4]]},{"t":"C18","m":[["Jerry LJ Chen","陳俍鈞",4]]},{"t":"C19","m":[["Hommin Chang","張峯銘",3]]},{"t":"C20","m":[["Clark Lin","林金鐘",4]]}];
+/* ===================================================== */
+const ZONES = {A:"A 區",B:"B 區",C:"C 區"};
+const NOTE = {"B8/B9":"另含 B10 一位","B10":"含 B8/B9 王韻涵家一位"};
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const tabsEl=document.getElementById("tabs"), panelsEl=document.getElementById("panels");
+const ALL=[];
+Object.keys(ZONES).forEach(z=>{
+  const ts=TABLES.filter(x=>x.t[0]===z);
+  const tot=ts.reduce((s,x)=>s+x.m.reduce((a,p)=>a+p[2],0),0);
+  tabsEl.insertAdjacentHTML("beforeend",`<button class="tab ${z}" data-id="${z}">${ZONES[z]}<small>${tot} 人</small></button>`);
+  panelsEl.insertAdjacentHTML("beforeend",`
+    <section class="panel ${z}" id="panel-${z}" hidden>
+      <div class="panel-head"><span>${ZONES[z]}</span><span class="tot">${tot} 人</span></div>
+      <a class="map" href="seat-${z}.jpg" target="_blank"><img src="seat-${z}.jpg" alt="${ZONES[z]}配置圖" loading="lazy"><span>點圖可放大</span></a>
+      ${ts.map(x=>{
+        const n=x.m.reduce((a,p)=>a+p[2],0);
+        x.m.forEach(p=>ALL.push({t:x,p}));
+        return `<div class="table" id="t-${esc(x.t)}"><h3>${esc(x.t)}<span>${x.m.length?n+" 人":"空桌"}</span></h3>
+          ${x.m.map(p=>`<div class="person" data-k="${esc(p[0].toLowerCase())}"><div>${esc(p[0])}<span class="zh">${esc(p[1])}</span></div><span class="pax">${p[2]} 人</span></div>`).join("")}
+          ${NOTE[x.t]?`<div class="note">※ ${NOTE[x.t]}</div>`:""}</div>`;
+      }).join("")}
+    </section>`);
+});
+function show(id,keep){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("on",t.dataset.id===id));
+  document.querySelectorAll(".panel").forEach(p=>p.hidden=p.id!=="panel-"+id);
+  if(!keep) history.replaceState(null,"","#"+id);
+}
+tabsEl.addEventListener("click",e=>{const t=e.target.closest(".tab"); if(t) show(t.dataset.id);});
+show(/^#[ABC]$/i.test(location.hash)?location.hash[1].toUpperCase():"A",true);
+const q=document.getElementById("q"), clr=document.getElementById("clear"), out=document.getElementById("result");
+function search(){
+  const v=q.value.trim().toLowerCase().replace(/\s+/g," ");
+  clr.style.display=v?"block":"none";
+  document.querySelectorAll(".hit").forEach(r=>r.classList.remove("hit"));
+  if(!v){out.style.display="none";out.innerHTML="";return;}
+  const hits=ALL.filter(x=>x.p[0].toLowerCase().replace(/\s+/g," ").includes(v)||x.p[1].includes(v));
+  out.style.display="block";
+  if(!hits.length){out.innerHTML=`<div class="nohit">找不到「${esc(q.value.trim())}」，請確認拼字 🙏</div>`;return;}
+  out.innerHTML=hits.slice(0,5).map(x=>{
+    const z=x.t.t[0], mates=x.t.m.filter(p=>p!==x.p);
+    return `<div class="hitcard ${z}">
+      <div class="top"><div><div class="who">${esc(x.p[0])}　${esc(x.p[1])}</div>
+        <div class="sub">共 ${x.p[2]} 人${NOTE[x.t.t]&&x.t.t==="B8/B9"?"・"+NOTE[x.t.t]:""}</div></div>
+        <div class="tbl"><small>${ZONES[z]}</small>${esc(x.t.t)}</div></div>
+      ${mates.length?`<div class="mates">同桌：${mates.map(p=>esc(p[0])+"（"+p[2]+"）").join("、")}</div>`:""}
+      <button class="go" data-t="${esc(x.t.t)}">看配置圖與同桌名單 ›</button></div>`;
+  }).join("")+(hits.length>5?`<div class="nohit" style="color:var(--muted)">還有 ${hits.length-5} 筆，請輸入更完整的名字</div>`:"");
+  show(hits[0].t.t[0]);
+  hits.forEach(x=>{
+    const el=document.getElementById("t-"+x.t.t); if(!el) return;
+    el.classList.add("hit");
+    el.querySelectorAll(".person").forEach(r=>{ if(r.dataset.k===x.p[0].toLowerCase()) r.classList.add("hit"); });
+  });
+}
+out.addEventListener("click",e=>{const b=e.target.closest(".go"); if(!b) return;
+  const t=b.dataset.t; show(t[0]); document.getElementById("t-"+t).scrollIntoView({behavior:"smooth",block:"center"});});
+q.addEventListener("input",search);
+q.addEventListener("keydown",e=>{if(e.key==="Enter") q.blur();});
+clr.addEventListener("click",()=>{q.value="";search();q.focus();});
+</script>
+</body>
+</html>
